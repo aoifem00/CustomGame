@@ -8,29 +8,33 @@
 import UIKit
 
 class ViewController: UIViewController {
-    func makeCircle(){
+    func makeWheel(){
         var path:UIBezierPath!
         path=UIBezierPath()
         
         let radius = 100.0
         path.move(to:CGPoint(x: 0, y: radius))
         
+        /*Add circle plot*/
         for i in stride(from:0.0, to:400.0, by:0.01){
             var x:Double!
             var y:Double!
             if(i<100){
                 x=i
                 y=sqrt(pow(radius, 2)-pow(x, 2))
+                
             }
             else if(i<200){
                 let r=i.truncatingRemainder(dividingBy: radius)
                 x=radius-r
                 y=sqrt(pow(radius, 2)-pow(x, 2)) * -1
+                
             }
             else if(i<300){
                 let r=i.truncatingRemainder(dividingBy: radius)
                 x = r * -1
                 y=sqrt(pow(radius, 2)-pow(x, 2)) * -1
+                print(x!, y!)
                  
             }
             else{
@@ -40,6 +44,22 @@ class ViewController: UIViewController {
             }
             path.addLine(to:CGPoint(x:x, y:y))
         }
+        /*Split up circle*/
+        
+        path.move(to:CGPoint(x:0, y:radius * -1))
+        path.addLine(to:CGPoint(x:0, y:radius))
+        
+        path.move(to:CGPoint(x:radius * -1, y:0))
+        path.addLine(to:CGPoint(x:radius, y:0))
+        
+        let halfPoint=sqrt(pow(radius,2)/2)
+        
+        path.move(to:CGPoint(x: halfPoint * -1, y: halfPoint))
+        path.addLine(to:CGPoint(x: halfPoint, y: halfPoint * -1))
+        
+        path.move(to:CGPoint(x: halfPoint * -1, y: halfPoint * -1))
+        path.addLine(to:CGPoint(x: halfPoint, y: halfPoint))
+        
         let shapeLayer = CAShapeLayer()
         
         let width=CGFloat(200);
@@ -56,6 +76,10 @@ class ViewController: UIViewController {
         shapeLayer.lineWidth = 2
         
         view.layer.addSublayer(shapeLayer)
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.duration = 5;
+        shapeLayer.add(animation, forKey: "MyAnimation")
     }
     
     //weak var shapeLayer: CAShapeLayer?
@@ -63,7 +87,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        makeCircle()
+        makeWheel()
+        
     }
 
 
