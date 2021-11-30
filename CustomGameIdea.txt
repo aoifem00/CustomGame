@@ -1,0 +1,1 @@
+I want to make a game that is similar to wheel of fortune, where the amount that the wheel turns is dependent on the swipe of the user. If the user does a very light swipe, the wheel will only rotate a small amount. If the user does a larger swipe, the wheel will rotate a larger amount. 
