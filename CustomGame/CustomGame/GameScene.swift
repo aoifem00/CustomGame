@@ -15,7 +15,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         let wheelTexture=SKTexture.init(imageNamed:"Image")
-        //let playerSpriteTexture=SKTexture(imageNamed:"Image-4");
         let wheel=SKSpriteNode(texture:wheelTexture)
         
         wheel.position=CGPoint(x: 0, y: 0)
@@ -23,8 +22,16 @@ class GameScene: SKScene {
         wheel.size.height=500
         self.addChild(wheel)
         
-        let action = SKAction.rotate(byAngle: CGFloat(Double.pi * 2), duration: 1)
-        wheel.run(action)
+        let wheelBody=SKPhysicsBody(circleOfRadius: max(wheel.size.width / 2, wheel.size.height / 2))
+        wheelBody.affectedByGravity=false
+        wheelBody.allowsRotation=true
+        
+        wheel.physicsBody=wheelBody
+        wheel.physicsBody?.angularDamping = 0.4
+        wheel.physicsBody?.angularVelocity = .pi * 2
+        
+        //wheelBody.pinned=true
+        
     }
     
     
