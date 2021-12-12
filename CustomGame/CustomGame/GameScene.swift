@@ -15,9 +15,11 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     var wheel:SKSpriteNode!
+    var question:UILabel!
+    var answer:UITextField!
     /*move code for spinning wheel body here*/
     func spin(){
-        wheel.physicsBody?.angularDamping = 0.4
+        wheel.physicsBody?.angularDamping = 0.45
         wheel.physicsBody?.angularVelocity = .pi * 4
         
     }
@@ -32,16 +34,39 @@ class GameScene: SKScene {
         }
         DispatchQueue.global().async{
             while true{
-                print(self.wheel.position)
-                if(self.wheel.physicsBody!.angularVelocity<0.01){
+                if(self.wheel.physicsBody!.angularVelocity<0.05){
                     break
                 }
             }
             print("Stopped")
+            DispatchQueue.main.async{
+                self.generateQuestions()
+            }
+            //self.generateQuestions()
         }
     }
     
+    func generateQuestions(){
+        //exit(0)
+        let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?"]
+        
+        let QandA=["How many residential communities are location on Binghamton University campus?":"7","When was Binghamton University established?":"1946", "How many different colleges/schools make up Binghamton University?":"6", "Who was the engineering school at Binghamton University named after?":"Thomas J. Watson"]
+        let qIndex=Int.random(in: 0..<questions.count)
+        
+        let q=questions[qIndex]
+        let a=QandA[q]
+        print(a!)
+        question.text=q
+        //question.attributedText=NSAttributedString.init(string: q
+        //question.lineBreakMode = .byClipping
+        question.textAlignment = .center
+        //question.sizeToFit()
+        question.font=question.font.withSize(14)
+        question.lineBreakMode = .byWordWrapping
+        question.numberOfLines = 4
+    }
     override func didMove(to view: SKView) {
+        
         
         let wheelTexture=SKTexture.init(imageNamed:"Image")
         wheel=SKSpriteNode(texture:wheelTexture)
@@ -51,8 +76,15 @@ class GameScene: SKScene {
         wheel.size.height=500
         self.addChild(wheel)
         
+        question=UILabel(frame:CGRect(x: view.frame.midX-140, y: 20, width: 280, height: 100))
+        print(view.frame.width)
+        question.textColor = .black
+        question.text=""
+        //question.lineBreakMode = .byWordWrapping
+        view.addSubview(question)
+        
         let button = UIButton(type: .custom)
-        button.frame = CGRect(x: view.frame.midX-25, y:view.frame.midY-25, width: 50, height: 50)
+        button.frame = CGRect(x: view.frame.midX-35, y:view.frame.midY-35, width: 70, height: 70)
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.clipsToBounds = true
         button.backgroundColor = .black

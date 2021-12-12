@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "wheel 2-1.png",
+      "filename" : "wheel-1.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "wheel 2-2.png",
+      "filename" : "wheel-2.jpeg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "wheel 2.png",
+      "filename" : "wheel.jpeg",
       "idiom" : "universal",
       "scale" : "3x"
     }
