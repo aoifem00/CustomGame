@@ -9,7 +9,7 @@ import SpriteKit
 import GameplayKit
 import Foundation
 
-class GameScene: SKScene {
+class GameScene: SKScene, UITextFieldDelegate {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -17,7 +17,8 @@ class GameScene: SKScene {
     var wheel:SKSpriteNode!
     var question:UILabel!
     var answer:UITextField!
-    /*move code for spinning wheel body here*/
+    var correctAnswer:String!
+    
     func spin(){
         wheel.physicsBody?.angularDamping = 0.45
         wheel.physicsBody?.angularVelocity = .pi * 4
@@ -38,14 +39,34 @@ class GameScene: SKScene {
                     break
                 }
             }
-            print("Stopped")
             DispatchQueue.main.async{
                 self.generateQuestions()
             }
-            //self.generateQuestions()
         }
     }
-    
+    func nextQuestion(){
+        UIView.animate(withDuration: 1.5){
+            self.question.alpha=0
+            self.answer.alpha=0
+        }
+    }
+    func textFieldShouldReturn(_ textField:UITextField)->Bool{
+        switch textField{
+        case self.answer:
+            if(self.answer.text==self.correctAnswer){
+                textField.resignFirstResponder()
+                nextQuestion()
+            }
+            else{
+                self.answer.text=""
+            }
+            break
+        default:
+            break
+        }
+        return true
+    }
+
     func generateQuestions(){
         //exit(0)
         let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?"]
@@ -54,16 +75,18 @@ class GameScene: SKScene {
         let qIndex=Int.random(in: 0..<questions.count)
         
         let q=questions[qIndex]
-        let a=QandA[q]
-        print(a!)
+        correctAnswer=QandA[q]
         question.text=q
-        //question.attributedText=NSAttributedString.init(string: q
-        //question.lineBreakMode = .byClipping
         question.textAlignment = .center
-        //question.sizeToFit()
         question.font=question.font.withSize(14)
         question.lineBreakMode = .byWordWrapping
         question.numberOfLines = 4
+        //answer.isHidden=false
+        self.answer.text=""
+        answer.alpha=1
+        question.alpha=1
+        
+        //answer.back
     }
     override func didMove(to view: SKView) {
         
@@ -77,11 +100,21 @@ class GameScene: SKScene {
         self.addChild(wheel)
         
         question=UILabel(frame:CGRect(x: view.frame.midX-140, y: 20, width: 280, height: 100))
-        print(view.frame.width)
+        
         question.textColor = .black
         question.text=""
+        
+        
         //question.lineBreakMode = .byWordWrapping
         view.addSubview(question)
+        
+        answer=UITextField(frame:CGRect(x: view.frame.midX-140, y: view.frame.maxY-90, width: 280, height: 30))
+        answer.placeholder="Type answer here"
+        answer.font=UIFont.systemFont(ofSize: 14)
+        answer.borderStyle=UITextField.BorderStyle.roundedRect
+        answer.delegate=self
+        answer.alpha=0
+        view.addSubview(answer)
         
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: view.frame.midX-35, y:view.frame.midY-35, width: 70, height: 70)
