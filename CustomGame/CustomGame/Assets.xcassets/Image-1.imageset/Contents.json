@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "red-up-arrow.png",
+      "filename" : "arrow-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "red-up-arrow-1.png",
+      "filename" : "arrow-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "red-up-arrow-2.png",
+      "filename" : "arrow.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

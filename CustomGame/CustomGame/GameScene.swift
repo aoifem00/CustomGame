@@ -32,6 +32,7 @@ class GameScene: SKScene {
         }
         DispatchQueue.global().async{
             while true{
+                print(self.wheel.position)
                 if(self.wheel.physicsBody!.angularVelocity<0.01){
                     break
                 }
@@ -60,7 +61,9 @@ class GameScene: SKScene {
         button.addTarget(self, action: #selector(spinWheel(_:)), for: .touchUpInside)
         
         let img=UIImage.init(named:"Image-1")
-        view.addSubview(UIImageView(image: img))
+        let imgView=UIImageView(image:img)
+        imgView.frame=CGRect(x: view.frame.midX-10, y: 130, width: 20, height: 20)
+        view.addSubview(imgView)
         
         
         let wheelBody=SKPhysicsBody(circleOfRadius: max(wheel.size.width / 2, wheel.size.height / 2))
