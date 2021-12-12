@@ -13,24 +13,39 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    var wheel:SKSpriteNode!
+    /*move code for spinning wheel body here*/
+    @IBAction func spin(_ sender:UIButton){
+        wheel.physicsBody?.angularDamping = 0.4
+        wheel.physicsBody?.angularVelocity = .pi * 4
+    }
     override func didMove(to view: SKView) {
+        
         let wheelTexture=SKTexture.init(imageNamed:"Image")
-        let wheel=SKSpriteNode(texture:wheelTexture)
+        wheel=SKSpriteNode(texture:wheelTexture)
         
         wheel.position=CGPoint(x: 0, y: 0)
         wheel.size.width=500
         wheel.size.height=500
         self.addChild(wheel)
         
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: view.frame.midX-25, y:view.frame.midY-25, width: 50, height: 50)
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
+        button.clipsToBounds = true
+        button.backgroundColor = .black
+        view.addSubview(button)
+        button.setTitle("Spin!", for: .normal)
+        button.addTarget(self, action: #selector(spin(_:)), for: .touchUpInside)
+        
+        let img=UIImage.init(named:"Image-1")
+        view.addSubview(UIImageView(image: img))
+        
         let wheelBody=SKPhysicsBody(circleOfRadius: max(wheel.size.width / 2, wheel.size.height / 2))
         wheelBody.affectedByGravity=false
         wheelBody.allowsRotation=true
         
         wheel.physicsBody=wheelBody
-        wheel.physicsBody?.angularDamping = 0.4
-        wheel.physicsBody?.angularVelocity = .pi * 2
-        
-        //wheelBody.pinned=true
         
     }
     
