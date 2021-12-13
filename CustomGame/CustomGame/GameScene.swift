@@ -18,6 +18,9 @@ class GameScene: SKScene, UITextFieldDelegate {
     var question:UILabel!
     var answer:UITextField!
     var correctAnswer:String!
+    var score:Int!
+    var scoreKeeper:UILabel!
+    var titleLabel:UILabel!
     
     func spin(){
         wheel.physicsBody?.angularDamping = 0.45
@@ -35,6 +38,7 @@ class GameScene: SKScene, UITextFieldDelegate {
         }
         DispatchQueue.global().async{
             DispatchQueue.main.async{
+                self.titleLabel.alpha=0
                 self.question.alpha=0
                 self.answer.alpha=0
             }
@@ -53,12 +57,16 @@ class GameScene: SKScene, UITextFieldDelegate {
             self.question.alpha=0
             self.answer.alpha=0
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.titleLabel.alpha=1
+        }
     }
     func textFieldShouldReturn(_ textField:UITextField)->Bool{
         switch textField{
         case self.answer:
             if(self.answer.text==self.correctAnswer){
                 textField.resignFirstResponder()
+                addPoint()
                 nextQuestion()
             }
             else{
@@ -70,7 +78,10 @@ class GameScene: SKScene, UITextFieldDelegate {
         }
         return true
     }
-
+    func addPoint(){
+        score=score+1
+        scoreKeeper.text = "Score: "+String(score)
+    }
     func generateQuestions(){
         //exit(0)
         let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?", "What was Binghamton University originally called?"]
@@ -92,6 +103,9 @@ class GameScene: SKScene, UITextFieldDelegate {
         
         //answer.back
     }
+    /*func showTitle(view:SKView){
+        
+    }*/
     
     override func didMove(to view: SKView) {
         let wheelTexture=SKTexture.init(imageNamed:"Image")
@@ -108,6 +122,12 @@ class GameScene: SKScene, UITextFieldDelegate {
         
         view.addSubview(question)
         
+        titleLabel=UILabel(frame:CGRect(x: view.frame.midX-140, y: 20, width: 280, height: 100))
+        titleLabel.textColor = .black
+        titleLabel.text="Spin The Wheel!"
+        
+        view.addSubview(titleLabel)
+        
         answer=UITextField(frame:CGRect(x: view.frame.midX-140, y: view.frame.maxY-90, width: 280, height: 30))
         answer.placeholder="Type answer here"
         answer.font=UIFont.systemFont(ofSize: 14)
@@ -115,6 +135,16 @@ class GameScene: SKScene, UITextFieldDelegate {
         answer.delegate=self
         answer.alpha=0
         view.addSubview(answer)
+        
+        score=0
+        scoreKeeper=UILabel(frame:CGRect(x: view.frame.maxX-100, y: view.frame.maxY-50, width: 80, height: 30))
+        scoreKeeper.text = "Score: "+String(score)
+        scoreKeeper.textColor = .black
+        
+        view.addSubview(scoreKeeper)
+        
+        question.textColor = .black
+        question.text=""
         
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: view.frame.midX-35, y:view.frame.midY-35, width: 70, height: 70)
