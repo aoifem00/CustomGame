@@ -84,9 +84,9 @@ class GameScene: SKScene, UITextFieldDelegate {
     }
     func generateQuestions(){
         //exit(0)
-        let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?", "What was Binghamton University originally called?"]
+        let questions=["How many residential communities are located on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?", "What was Binghamton University originally called?"]
         
-        let QandA=["How many residential communities are location on Binghamton University campus?":"7","When was Binghamton University established?":"1946", "How many different colleges/schools make up Binghamton University?":"6", "Who was the engineering school at Binghamton University named after?":"Thomas J. Watson","What was Binghamton University originally called?":"Harpur College"]
+        let QandA=["How many residential communities are located on Binghamton University campus?":"7","When was Binghamton University established?":"1946", "How many different colleges/schools make up Binghamton University?":"6", "Who was the engineering school at Binghamton University named after?":"Thomas J. Watson","What was Binghamton University originally called?":"Harpur College"]
         let qIndex=Int.random(in: 0..<questions.count)
         
         let q=questions[qIndex]
@@ -96,16 +96,10 @@ class GameScene: SKScene, UITextFieldDelegate {
         question.font=question.font.withSize(14)
         question.lineBreakMode = .byWordWrapping
         question.numberOfLines = 4
-        //answer.isHidden=false
         self.answer.text=""
         answer.alpha=1
         question.alpha=1
-        
-        //answer.back
     }
-    /*func showTitle(view:SKView){
-        
-    }*/
     
     override func didMove(to view: SKView) {
         let wheelTexture=SKTexture.init(imageNamed:"Image")
@@ -125,6 +119,7 @@ class GameScene: SKScene, UITextFieldDelegate {
         titleLabel=UILabel(frame:CGRect(x: view.frame.midX-140, y: 20, width: 280, height: 100))
         titleLabel.textColor = .black
         titleLabel.text="Spin The Wheel!"
+        titleLabel.textAlignment = .center
         
         view.addSubview(titleLabel)
         
