@@ -21,9 +21,9 @@ class GameScene: SKScene, UITextFieldDelegate {
     
     func spin(){
         wheel.physicsBody?.angularDamping = 0.45
-        wheel.physicsBody?.angularVelocity = .pi * 4
-        
+        wheel.physicsBody?.angularVelocity = .pi * 6
     }
+    
     @IBAction func spinWheel(_ sender:UIButton){
         DispatchQueue.global().async {
             self.spin()
@@ -34,6 +34,10 @@ class GameScene: SKScene, UITextFieldDelegate {
             }
         }
         DispatchQueue.global().async{
+            DispatchQueue.main.async{
+                self.question.alpha=0
+                self.answer.alpha=0
+            }
             while true{
                 if(self.wheel.physicsBody!.angularVelocity<0.05){
                     break
@@ -69,9 +73,9 @@ class GameScene: SKScene, UITextFieldDelegate {
 
     func generateQuestions(){
         //exit(0)
-        let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?"]
+        let questions=["How many residential communities are location on Binghamton University campus?","When was Binghamton University established?", "How many different colleges/schools make up Binghamton University?", "Who was the engineering school at Binghamton University named after?", "What was Binghamton University originally called?"]
         
-        let QandA=["How many residential communities are location on Binghamton University campus?":"7","When was Binghamton University established?":"1946", "How many different colleges/schools make up Binghamton University?":"6", "Who was the engineering school at Binghamton University named after?":"Thomas J. Watson"]
+        let QandA=["How many residential communities are location on Binghamton University campus?":"7","When was Binghamton University established?":"1946", "How many different colleges/schools make up Binghamton University?":"6", "Who was the engineering school at Binghamton University named after?":"Thomas J. Watson","What was Binghamton University originally called?":"Harpur College"]
         let qIndex=Int.random(in: 0..<questions.count)
         
         let q=questions[qIndex]
@@ -88,9 +92,8 @@ class GameScene: SKScene, UITextFieldDelegate {
         
         //answer.back
     }
+    
     override func didMove(to view: SKView) {
-        
-        
         let wheelTexture=SKTexture.init(imageNamed:"Image")
         wheel=SKSpriteNode(texture:wheelTexture)
         
@@ -100,12 +103,9 @@ class GameScene: SKScene, UITextFieldDelegate {
         self.addChild(wheel)
         
         question=UILabel(frame:CGRect(x: view.frame.midX-140, y: 20, width: 280, height: 100))
-        
         question.textColor = .black
         question.text=""
         
-        
-        //question.lineBreakMode = .byWordWrapping
         view.addSubview(question)
         
         answer=UITextField(frame:CGRect(x: view.frame.midX-140, y: view.frame.maxY-90, width: 280, height: 30))
